@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA1 Seizure Modeling — Raheem</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f8f7f4;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  nav {
+    background: #fff;
+    border-bottom: 2px solid #b0a898;
+    padding: 0 40px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  .brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .brand span { color: #9a948c; }
+
+  main {
+    flex: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 72px 40px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a948c;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #b0a898;
+  }
+
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+
+  .lead {
+    font-size: 16px;
+    color: #5a5248;
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 48px;
+  }
+
+  .meta {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a948c;
+  }
+  .meta-value { font-size: 13px; color: #5a5248; font-weight: 500; }
+
+  .divider { border: none; border-top: 1px solid #d4cfc8; margin-bottom: 40px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a948c;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #d4cfc8;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 14px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #b0a898;
+    border-radius: 8px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+  }
+  .card:hover {
+    border-color: #1a1a1a;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+  .card.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .card-left { display: flex; flex-direction: column; gap: 6px; }
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a948c;
+  }
+  .card h3 { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+  .card p { font-size: 12px; color: #5a5248; line-height: 1.55; max-width: 480px; }
+
+  .card-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .status-live { color: #1a7a3c; }
+  .status-pending { color: #9a948c; }
+
+  .open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .open-btn:hover { background: #333; }
+
+  footer {
+    border-top: 1px solid #d4cfc8;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  footer div {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #9a948c;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="tag">Dr. Cavarretta Research Lab</div>
+  <h1>CA1 Hippocampal<br>Seizure Modeling</h1>
+  <p class="lead">
+    Computational modeling of CA1 hippocampal pyramidal neuron synaptic inputs
+    to study general seizure mechanisms using the NEURON simulator.
+    Excitatory and inhibitory afferents parameterized from primary literature.
+  </p>
+
+  <div class="meta">
+    <div class="meta-item">
+      <span class="meta-label">Researcher</span>
+      <span class="meta-value">Raheem</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Supervisor</span>
+      <span class="meta-value">Dr. Cavarretta</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Model</span>
+      <span class="meta-value">CA1 Pyramidal Neuron</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Simulator</span>
+      <span class="meta-value">NEURON</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Tables</div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-left">
+        <div class="card-tag">Table 01 — Biological Parameters</div>
+        <h3>CA1 Synaptic Input Parameters</h3>
+        <p>Excitatory and inhibitory afferents onto CA1 pyramidal neurons. Subcellular distribution, peak conductance, synapse counts, and presynaptic firing frequencies from primary literature.</p>
+      </div>
+      <a class="open-btn" href="ca1_synaptic_parameters.pdf" target="_blank">↗ Open PDF</a>
+    </div>
+
+    <div class="card disabled">
+      <div class="card-left">
+        <div class="card-tag">Table 02 — Computational Parameters</div>
+        <h3>NEURON Simulation Parameters</h3>
+        <p>Biological parameters translated into NEURON simulator units. Synapse placement, conductance conversion, and spike train inputs for the CA1 pyramidal neuron baseline model.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div>CA1 Seizure Modeling · Dr. Cavarretta Lab</div>
+  <div>All values from cited primary literature · Animal data (rat/mouse)</div>
+</footer>
+
+</body>
+</html>
