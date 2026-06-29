@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synapse Integration Tests — CA1 Seizure Modeling</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f8f7f4;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  nav {
+    background: #fff;
+    border-bottom: 2px solid #b0a898;
+    padding: 0 40px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  .brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .brand span { color: #9a948c; }
+
+  main {
+    flex: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 40px 72px;
+    width: 100%;
+  }
+
+  .back {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9a948c;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 36px;
+    transition: color 0.15s ease;
+  }
+  .back:hover { color: #1a1a1a; }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a948c;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #b0a898;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+
+  .lead {
+    font-size: 16px;
+    color: #5a5248;
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 24px;
+  }
+  .lead strong { color: #1a1a1a; font-weight: 600; }
+
+  .divider { border: none; border-top: 1px solid #d4cfc8; margin: 40px 0; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a948c;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #d4cfc8;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 14px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #b0a898;
+    border-radius: 8px;
+    padding: 22px 26px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a948c;
+    margin-bottom: 6px;
+  }
+  .card h3 { font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+  .card p { font-size: 13px; color: #5a5248; line-height: 1.6; }
+
+  .note {
+    background: #fff;
+    border: 1px solid #d4cfc8;
+    border-left: 3px solid #b0a898;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+  .note .card-tag { margin-bottom: 8px; }
+  .note p { font-size: 13px; color: #5a5248; line-height: 1.65; margin-bottom: 10px; }
+  .note p:last-child { margin-bottom: 0; }
+
+  .github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 13px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    margin-top: 40px;
+  }
+  .github-btn:hover { background: #333; }
+
+  footer {
+    border-top: 1px solid #d4cfc8;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  footer div {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #9a948c;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <a class="back" href="index.html">← Back to overview</a>
+
+  <div class="tag">Week 01 — Simulations</div>
+  <h1>Synaptic Input Tests</h1>
+  <p class="lead">
+    First synaptic input tests for the CA1 pyramidal neuron model
+    (ModelDB 2018009, Migliore et al. 2018). The base model is a pure intrinsic
+    channel model with no built-in synapses, so synapses are added from scratch.
+  </p>
+  <p class="lead">
+    All synapses use NEURON's built-in <strong>Exp2Syn</strong> mechanism — the
+    standard event-driven AMPA/GABA synapse. Excitatory synapses use reversal
+    potential <strong>e = 0 mV</strong> (AMPA-like); inhibitory synapses use
+    <strong>e = −75 mV</strong> (GABA-like). Presynaptic activity is delivered by
+    NetStim objects through NetCon. All parameter values are taken from the
+    project parameter table.
+  </p>
+
+  <hr class="divider">
+
+  <div class="section-label">Tests</div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-tag">Test 01 — Single Excitatory Synapse</div>
+      <h3>Clean EPSP</h3>
+      <p>One Exp2Syn synapse on an apical dendrite with CA3 proximal parameters, driven by a NetStim at 10 Hz. Produces a clean excitatory postsynaptic potential at the soma. Confirms the full pipeline: load cell, attach synapse, connect NetStim, record, plot.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Test 02 — Excitatory vs Inhibitory</div>
+      <h3>EPSP vs IPSP</h3>
+      <p>Adds an inhibitory synapse on the soma (PV basket parameters, e = −75 mV) alongside the excitatory one. Excitatory input depolarizes the membrane (EPSP, upward); inhibitory input hyperpolarizes it (IPSP, downward below rest). Same Exp2Syn mechanism, different reversal potential.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Test 04 — Random Distribution (Baseline)</div>
+      <h3>Distributed Synaptic Input</h3>
+      <p>Two functions randomly distribute synapses across the apical and basal dendrites — one for excitatory, one for inhibitory — at the 10% baseline count (180 excitatory + 18 inhibitory). The cell integrates the distributed input and fires a sustained train of action potentials.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">Test 05 — Conductance Scaling</div>
+      <h3>Effect of Synaptic Strength</h3>
+      <p>Keeps the synapse count fixed (180/18) and varies the excitatory conductance peak (0.5×, 1×, 2× the table value) with identical random placement each run. Firing scales with conductance — roughly 17 / 28 / 57 spikes for low / baseline / high — isolating synaptic strength from synapse number.</p>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <div class="card-tag">Note on synapse mechanisms</div>
+    <p>Dedicated AMPA/GABA .mod files were investigated. The available simple ones either required separate include files, or — in the case of the CA1-specific Lupascu/BBP GABA file — included stochastic release, short-term plasticity, and GABA-B, all of which are excluded from this baseline.</p>
+    <p>Their core conductance is the same dual-exponential profile as Exp2Syn. Dedicated mechanisms will be revisited when plasticity and NMDA are added before the seizure experiments.</p>
+  </div>
+
+  <a class="github-btn" href="https://github.com/raheemqandeel11/ca1-seizure-modeling/tree/main/synapse_tests" target="_blank">↗ View Code on GitHub</a>
+
+</main>
+
+<footer>
+  <div>CA1 Seizure Modeling · Dr. Cavarretta Lab</div>
+  <div>All values from cited primary literature · Animal data (rat/mouse)</div>
+</footer>
+
+</body>
+</html>
